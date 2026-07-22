@@ -4,7 +4,7 @@
 **Canonical contract:** `https://raw.githubusercontent.com/petebot/portfolio26/main/DESIGN_SYSTEM_CONTRACT.md`  
 **System name:** Driftline Instrument System  
 **System status:** living  
-**Visual specimen:** [`/system`](../src/app/system/page.tsx)
+**Visual specimen:** [`/system`](../src/app/system/page.tsx) · [Public specimen](https://mission-control-lime-eta.vercel.app/system)
 
 Driftline uses a restrained scientific-instrument language: calm surfaces, precise hierarchy, visible system state, and warm intervention colors reserved for moments that require attention.
 
@@ -204,4 +204,4 @@ The repository preserves the following case-study evidence:
 - the type-scale and accessibility iteration recorded in this history;
 - a system decision that propagates through navigation, dashboard, records, people, creation, and dialogs via shared tokens.
 
-The machine-readable portfolio exchange object is preserved in [`docs/portfolio-handoff.json`](portfolio-handoff.json). Its public `specimenUrl` remains `null` until the app has a stable deployment URL.
+The machine-readable portfolio exchange object is preserved in [`docs/portfolio-handoff.json`](portfolio-handoff.json), including the stable public specimen URL.
