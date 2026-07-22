@@ -14,13 +14,14 @@ The demo is an independently authored public reinterpretation of broad product l
 - Stage-aware record creation with an immediate detail view
 - People grid with allocation, active-work, and attention statistics
 - Individual people views connecting assignments and responsibility
+- Discoverable `/system` route documenting foundations, components, states, and product patterns
 - Four responsibility lenses over one shared portfolio
 - Decide, Delegate, and Nudge interaction families
 - Immediate flow and responsibility updates after an action
 - Local demo persistence, undo, and reset
 - Responsive and keyboard-accessible interface
 
-The approved product brief is in [`docs/product-brief.md`](docs/product-brief.md).
+The approved [product brief](docs/product-brief.md), shared [design-system contract](DESIGN_SYSTEM_CONTRACT.md), and project [design system](docs/design-system.md) document the product thesis, system method, visual foundations, component language, and accessibility contract.
 
 ## Run locally
 
@@ -36,6 +37,10 @@ Open [http://localhost:3000](http://localhost:3000).
 ```bash
 npm run lint
 npm test
+npm run check:design-system
+npm run check:design-system-version
+npm run test:a11y
+npm run test:visual
 npm run build
 ```
 

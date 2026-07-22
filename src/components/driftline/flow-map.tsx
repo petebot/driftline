@@ -36,6 +36,7 @@ export function FlowMap({ items, selectedStage, onSelectStage }: FlowMapProps) {
           className={`unsorted-node ${selectedStage === "signal" ? "is-related" : ""}`}
           type="button"
           onClick={() => onSelectStage(selectedStage === "signal" ? null : "signal")}
+          aria-pressed={selectedStage === "signal"}
           aria-label={`${unsorted} unsorted signals. Filter signals.`}
         >
           <span className="unsorted-node__count">{String(unsorted).padStart(2, "0")}</span>

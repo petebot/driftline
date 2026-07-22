@@ -60,7 +60,7 @@ export function DriftlineApp() {
             <div><p className="kicker">Attention routing · {currentRole.remit}</p><h2 id="decisions-title">Waiting on you</h2><p>Specific decisions surfaced by visible operating rules.</p></div>
             <div className="queue-controls">
               {selectedStage && <button type="button" className="filter-chip" onClick={() => setSelectedStage(null)}><SlidersHorizontal size={13} /> {stageMeta[selectedStage].label} <span>×</span></button>}
-              <span className="queue-count">{String(filteredAttention.length).padStart(2, "0")}</span>
+              <span className="queue-count" aria-live="polite" aria-label={`${filteredAttention.length} decisions shown`}>{String(filteredAttention.length).padStart(2, "0")}</span>
             </div>
           </header>
 
@@ -74,7 +74,7 @@ export function DriftlineApp() {
               const owner = people.find((person) => person.id === item.ownerId);
               return (
                 <article className={`attention-card ${selectedAttention?.key === entry.key ? "is-selected" : ""}`} key={entry.key}>
-                  <button className="attention-card__select" type="button" onClick={() => setSelectedKey(entry.key)} aria-label={`Inspect ${item.title}`}>
+                  <button className="attention-card__select" type="button" aria-pressed={selectedAttention?.key === entry.key} onClick={() => setSelectedKey(entry.key)} aria-label={`Inspect ${item.title}`}>
                     <span className={`severity-mark severity-mark--${entry.severity}`} aria-hidden="true" />
                     <span className="attention-card__main"><span className="attention-card__meta"><span className="family-label"><Icon size={13} /> {familyLabels[entry.family]}</span><span>{item.code}</span><span>{stageMeta[item.stage].label}</span></span><strong className="attention-card__title">{item.title}</strong><span className="attention-card__reason">{entry.headline}</span></span>
                     <span className="attention-card__right"><span className={`age-badge age-badge--${entry.severity}`}>{entry.ageLabel}</span><span className="owner-readout">{owner ? <><span className="avatar avatar--small" style={{ background: owner.color }}>{owner.initials}</span>{owner.name}</> : <><span className="avatar avatar--small avatar--empty">?</span>No owner</>}</span></span>
@@ -105,7 +105,7 @@ export function DriftlineApp() {
 
       <section className="role-lenses" aria-labelledby="roles-title">
         <div><p className="kicker">One system · Four responsibility boundaries</p><h2 id="roles-title">See the handoff, not another dashboard.</h2></div>
-        <div className="role-tabs" role="list" aria-label="Switch role lens">{roles.map((entry) => <button type="button" role="listitem" key={entry.id} className={role === entry.id ? "is-active" : ""} onClick={() => { setRole(entry.id); setSelectedKey(null); setSelectedStage(null); }}><span className="persona-avatar">{entry.initials}</span><span><strong>{entry.label}</strong><small>{entry.remit}</small></span><span className="role-tabs__count">{getAttentionItems(state, entry.id).length}</span></button>)}</div>
+        <div className="role-tabs" aria-label="Switch role lens">{roles.map((entry) => <button type="button" key={entry.id} aria-pressed={role === entry.id} className={role === entry.id ? "is-active" : ""} onClick={() => { setRole(entry.id); setSelectedKey(null); setSelectedStage(null); }}><span className="persona-avatar">{entry.initials}</span><span><strong>{entry.label}</strong><small>{entry.remit}</small></span><span className="role-tabs__count">{getAttentionItems(state, entry.id).length}</span></button>)}</div>
       </section>
 
       {dialogAttention && dialogItem && <ActionDialog key={dialogAttention.key} attention={dialogAttention} item={dialogItem} onClose={() => setDialogKey(null)} onSubmit={submitAction} />}

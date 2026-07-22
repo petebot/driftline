@@ -1,0 +1,25 @@
+{
+  "name": "Driftline Instrument System",
+  "status": "living",
+  "contractVersion": "1.0.0",
+  "summary": "A restrained, accessible interface system that makes portfolio movement, stalled work, and human decision points explicit for a fictional ocean-research organization.",
+  "principles": [
+    {
+      "name": "Make flow visible",
+      "description": "Movement and blockage appear before secondary metrics."
+    },
+    {
+      "name": "Explain the prompt",
+      "description": "Every intervention shows its rule, evidence, age, owner, and clearing condition."
+    },
+    {
+      "name": "Preserve human judgment",
+      "description": "The system routes attention while people decide, delegate, and support."
+    },
+    {
+      "name": "Earn the density",
+      "description": "Compact information remains readable, structured, and resilient."
+    }
+  ],
+  "specimenUrl": null
+}
