@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Driftline
 
-## Getting Started
+Driftline is a fictional decision workspace for the fictional Aster Bay Ocean Institute. It makes the flow of ocean-research work visible, explains where work has stalled, and routes specific Decide, Delegate, or Nudge actions to the responsible role.
 
-First, run the development server:
+The demo is an independently authored public reinterpretation of broad product lessons. It contains original code, visual design, product language, rules, and fictional data. It does not include proprietary source code, packages, authentication, branding, infrastructure, assets, screenshots, or data from the internal reference project.
+
+## Experience
+
+- Left-to-right research pipeline showing volume, age, and bottlenecks
+- Unified Dashboard combining flow and the deterministic **Waiting on you** queue
+- Sticky, collapsible product navigation with role-aware creation shortcuts
+- Searchable and filterable Portfolio card grid
+- Individual work records with lifecycle, ownership, evidence, relationships, activity, and actions
+- Stage-aware record creation with an immediate detail view
+- People grid with allocation, active-work, and attention statistics
+- Individual people views connecting assignments and responsibility
+- Four responsibility lenses over one shared portfolio
+- Decide, Delegate, and Nudge interaction families
+- Immediate flow and responsibility updates after an action
+- Local demo persistence, undo, and reset
+- Responsive and keyboard-accessible interface
+
+The approved product brief is in [`docs/product-brief.md`](docs/product-brief.md).
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Quality checks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm test
+npm run build
+```
 
-## Learn More
+## Stack
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js App Router
+- React and TypeScript
+- Tailwind CSS foundation with an original CSS visual system
+- Vitest for deterministic rule and transition coverage
+- Lucide icons and the open-source Geist typeface
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+No backend, authentication, environment variables, or private services are required. The app is ready for a standard Vercel deployment.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Fictional-data notice
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Aster Bay Ocean Institute, its people, programs, operations, research records, locations in context, and all measurements shown in the interface are fictional demo content.
