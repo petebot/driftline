@@ -18,7 +18,7 @@ This is a focused product demo, not a full portfolio-management suite. Its five-
 Driftline will be authored from scratch as an independently branded public project.
 
 - No source code, components, helpers, styles, rules, data, tests, configuration, or file structure will be copied or adapted from the reference repository.
-- No GN names, branding, terminology, packages, authentication, infrastructure, URLs, assets, screenshots, or data will appear in the project.
+- No former-employer names, branding, terminology, packages, authentication, infrastructure, URLs, assets, screenshots, or data will appear in the project.
 - The reference project was reviewed only to understand broad product territory and lessons.
 - All organization names, people, research activities, metrics, copy, visual assets, data relationships, and rule definitions will be newly created.
 - Only publicly available open-source dependencies will be used.
