@@ -9,6 +9,7 @@ import { useDriftline } from "./driftline-provider";
 import { people, roles, stageMeta } from "@/lib/driftline/seed";
 import { getAttentionItems } from "@/lib/driftline/rules";
 import type { ActionFamily, DemoAction, StageId } from "@/lib/driftline/types";
+import { AnimatedNumber } from "./animated-number";
 
 const familyIcons = { decide: CircleDot, delegate: UserRoundPlus, nudge: TimerReset };
 const familyLabels: Record<ActionFamily, string> = { decide: "Decision", delegate: "Ownership", nudge: "Check-in" };
@@ -60,11 +61,11 @@ export function DriftlineApp() {
             <div><p className="kicker">Attention routing · {currentRole.remit}</p><h2 id="decisions-title">Waiting on you</h2><p>Specific decisions surfaced by visible operating rules.</p></div>
             <div className="queue-controls">
               {selectedStage && <button type="button" className="filter-chip" onClick={() => setSelectedStage(null)}><SlidersHorizontal size={13} /> {stageMeta[selectedStage].label} <span>×</span></button>}
-              <span className="queue-count" aria-live="polite" aria-label={`${filteredAttention.length} decisions shown`}>{String(filteredAttention.length).padStart(2, "0")}</span>
+              <span className="queue-count" aria-live="polite" aria-label={`${filteredAttention.length} decisions shown`}><AnimatedNumber value={filteredAttention.length} minimumIntegerDigits={2} /></span>
             </div>
           </header>
 
-          <div className="attention-stack">
+          <div className="attention-stack motion-stagger">
             {filteredAttention.length === 0 ? (
               <div className="empty-state"><span><Check size={20} /></span><div><strong>No decisions waiting here.</strong><p>Clear the stage filter or switch roles to inspect another responsibility boundary.</p></div>{selectedStage && <button type="button" onClick={() => setSelectedStage(null)}>Clear filter</button>}</div>
             ) : filteredAttention.map((entry) => {
@@ -94,7 +95,7 @@ export function DriftlineApp() {
               <div className="inspector__title"><span className="kind-mark kind-mark--large">{selectedItem.kind.slice(0, 1)}</span><div><span>{selectedItem.kind} · {selectedItem.region}</span><h3>{selectedItem.title}</h3></div></div>
               <p className="inspector__summary">{selectedItem.summary}</p>
               <div className="rule-explanation"><span className="rule-explanation__icon"><Sparkles size={16} /></span><div><span>Rule {selectedAttention.ruleId}</span><strong>{selectedAttention.reason}</strong></div></div>
-              <div className="evidence-block"><div className="evidence-block__heading"><span>Evidence on record</span><small>{selectedItem.evidence.length} signals</small></div><ul>{selectedItem.evidence.map((evidence) => <li key={evidence}><Check size={13} /> {evidence}</li>)}</ul></div>
+              <div className="evidence-block"><div className="evidence-block__heading"><span>Evidence on record</span><small><AnimatedNumber value={selectedItem.evidence.length} /> signals</small></div><ul className="motion-stagger">{selectedItem.evidence.map((evidence) => <li key={evidence}><Check size={13} /> {evidence}</li>)}</ul></div>
               <dl className="inspector-metrics"><div><dt>Current stage</dt><dd>{stageMeta[selectedItem.stage].label}</dd></div><div><dt>Last movement</dt><dd>{selectedItem.updatedLabel}</dd></div><div><dt>Clears when</dt><dd>{selectedAttention.clearsWhen}</dd></div></dl>
               <div className="inspector-actions"><Link className="button button--quiet" href={`/work/${selectedItem.id}`}>Open record</Link><button className="button button--primary" type="button" onClick={() => setDialogKey(selectedAttention.key)}>{selectedAttention.primaryLabel} <ArrowRight size={15} /></button></div>
               <p className="deterministic-note"><Info size={13} /> Ordered by ownership, blockage severity, and elapsed time. No hidden score.</p>
@@ -105,7 +106,7 @@ export function DriftlineApp() {
 
       <section className="role-lenses" aria-labelledby="roles-title">
         <div><p className="kicker">One system · Four responsibility boundaries</p><h2 id="roles-title">See the handoff, not another dashboard.</h2></div>
-        <div className="role-tabs" aria-label="Switch role lens">{roles.map((entry) => <button type="button" key={entry.id} aria-pressed={role === entry.id} className={role === entry.id ? "is-active" : ""} onClick={() => { setRole(entry.id); setSelectedKey(null); setSelectedStage(null); }}><span className="persona-avatar">{entry.initials}</span><span><strong>{entry.label}</strong><small>{entry.remit}</small></span><span className="role-tabs__count">{getAttentionItems(state, entry.id).length}</span></button>)}</div>
+        <div className="role-tabs motion-stagger" aria-label="Switch role lens">{roles.map((entry) => <button type="button" key={entry.id} aria-pressed={role === entry.id} className={role === entry.id ? "is-active" : ""} onClick={() => { setRole(entry.id); setSelectedKey(null); setSelectedStage(null); }}><span className="persona-avatar">{entry.initials}</span><span><strong>{entry.label}</strong><small>{entry.remit}</small></span><span className="role-tabs__count"><AnimatedNumber value={getAttentionItems(state, entry.id).length} /></span></button>)}</div>
       </section>
 
       {dialogAttention && dialogItem && <ActionDialog key={dialogAttention.key} attention={dialogAttention} item={dialogItem} onClose={() => setDialogKey(null)} onSubmit={submitAction} />}

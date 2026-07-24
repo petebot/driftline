@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Check, MessageCircleMore, UserRoundPlus, X } from "lucide-react";
 import { people, stageMeta } from "@/lib/driftline/seed";
 import type { AttentionItem, DemoAction, PortfolioItem } from "@/lib/driftline/types";
+import { AnimatedNumber } from "./animated-number";
+import { AnimatedProgress } from "./animated-progress";
 
 interface ActionDialogProps {
   attention: AttentionItem;
@@ -87,7 +89,7 @@ export function ActionDialog({ attention, item, onClose, onSubmit }: ActionDialo
           </div>
 
           {attention.family === "decide" && (
-            <div className="decision-options">
+            <div className="decision-options motion-stagger">
               <button type="button" aria-pressed={outcome === "advance"} className={outcome === "advance" ? "is-active" : ""} onClick={() => setOutcome("advance")}>
                 <span className="decision-options__icon"><ArrowUpRight size={18} /></span>
                 <span>
@@ -112,13 +114,13 @@ export function ActionDialog({ attention, item, onClose, onSubmit }: ActionDialo
           )}
 
           {attention.family === "delegate" && (
-            <div className="people-options">
+            <div className="people-options motion-stagger">
               <p className="dialog-prompt"><UserRoundPlus size={16} /> Available Expedition Leads</p>
               {eligiblePeople.map((person) => (
                 <button type="button" key={person.id} aria-pressed={assigneeId === person.id} className={assigneeId === person.id ? "person-option is-active" : "person-option"} onClick={() => setAssigneeId(person.id)}>
                   <span className="avatar" style={{ background: person.color }}>{person.initials}</span>
                   <span className="person-option__identity"><strong>{person.name}</strong><small>{person.discipline} · {person.location}</small></span>
-                  <span className="load-meter"><span role="progressbar" aria-label={`${person.name} allocation`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={person.load}><i style={{ width: `${person.load}%` }} /></span><small>{person.load}% allocated</small></span>
+                  <span className="load-meter"><AnimatedProgress value={person.load} label={`${person.name} allocation`} /><small><AnimatedNumber value={person.load} suffix="%" /> allocated</small></span>
                   {assigneeId === person.id && <Check size={18} />}
                 </button>
               ))}

@@ -16,7 +16,9 @@ export function CreateWorkPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const requestedStage = searchParams.get("stage") as StageId | null;
-  const [stage, setStage] = useState<StageId>(requestedStage && stages.includes(requestedStage) ? requestedStage : "signal");
+  const stageFromQuery = requestedStage && stages.includes(requestedStage) ? requestedStage : "signal";
+  const [stageSelection, setStageSelection] = useState<{ query: StageId | null; value: StageId } | null>(null);
+  const stage = stageSelection?.query === requestedStage ? stageSelection.value : stageFromQuery;
   const [kind, setKind] = useState<WorkKind>("Hypothesis");
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
@@ -41,7 +43,7 @@ export function CreateWorkPage() {
 
       <form className="create-layout" onSubmit={submit}>
         <div className="create-main">
-          <fieldset className="form-section"><legend><span>01</span> Where does this enter the system?</legend><p>Downstream records can also be created directly for demo purposes.</p><div className="stage-choice-grid">{stages.map((stageId) => { const Icon = stageIcons[stageId]; return <button type="button" key={stageId} aria-pressed={stage === stageId} className={stage === stageId ? "is-active" : ""} onClick={() => setStage(stageId)} style={{ "--stage-accent": stageMeta[stageId].accent } as React.CSSProperties}><Icon size={17} /><strong>{stageMeta[stageId].label}</strong><small>{stageMeta[stageId].description}</small>{stage === stageId && <Check size={15} />}</button>; })}</div></fieldset>
+          <fieldset className="form-section"><legend><span>01</span> Where does this enter the system?</legend><p>Downstream records can also be created directly for demo purposes.</p><div className="stage-choice-grid motion-stagger">{stages.map((stageId) => { const Icon = stageIcons[stageId]; return <button type="button" key={stageId} aria-pressed={stage === stageId} className={stage === stageId ? "is-active" : ""} onClick={() => setStageSelection({ query: requestedStage, value: stageId })} style={{ "--stage-accent": stageMeta[stageId].accent } as React.CSSProperties}><Icon size={17} /><strong>{stageMeta[stageId].label}</strong><small>{stageMeta[stageId].description}</small>{stage === stageId && <Check size={15} />}</button>; })}</div></fieldset>
 
           <fieldset className="form-section"><legend><span>02</span> Describe the work</legend><div className="form-grid"><label className="field-group field-group--wide"><span>Title</span><input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="A clear, specific working title" autoFocus /><small>{title.length}/80</small></label><label className="field-group field-group--wide"><span>Summary</span><textarea value={summary} onChange={(event) => setSummary(event.target.value)} placeholder="What is being explored or changed, and why does it matter?" rows={5} /></label><label className="field-group"><span>Work type</span><select value={kind} onChange={(event) => setKind(event.target.value as WorkKind)}>{kinds.map((value) => <option key={value}>{value}</option>)}</select></label><label className="field-group"><span>Region</span><input value={region} onChange={(event) => setRegion(event.target.value)} placeholder="e.g. Labrador Shelf" /></label></div></fieldset>
 

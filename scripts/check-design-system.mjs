@@ -25,6 +25,7 @@ const shell = read("src/components/driftline/app-shell.tsx");
 const dialog = read("src/components/driftline/action-dialog.tsx");
 const portfolio = read("src/components/driftline/portfolio-page.tsx");
 const people = read("src/components/driftline/people-page.tsx");
+const animatedProgress = read("src/components/driftline/animated-progress.tsx");
 const specimenRoute = read("src/app/system/page.tsx");
 const specimen = read("src/components/driftline/design-system-page.tsx");
 const handoff = read("docs/portfolio-handoff.json");
@@ -60,7 +61,7 @@ if (mode === "--a11y" || mode === "--all") {
   requireMatch(shell, /aria-current=/, "Current navigation state is not exposed.");
   requireMatch(dialog, /role="dialog"/, "The action dialog role is missing.");
   requireMatch(dialog, /event\.key === "Escape"/, "The action dialog must close with Escape.");
-  requireMatch(`${portfolio}${people}${dialog}`, /role="progressbar"/, "Progress values are not exposed semantically.");
+  requireMatch(`${portfolio}${people}${dialog}${animatedProgress}`, /role: "progressbar"/, "Progress values are not exposed semantically.");
   requireMatch(`${portfolio}${people}${specimen}`, /aria-pressed=/, "Selection state is not exposed with aria-pressed.");
 }
 

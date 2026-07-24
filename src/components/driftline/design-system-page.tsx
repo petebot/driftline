@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Check, CircleAlert, Focus, Moon, MoveRight, Sun } from "lucide-react";
+import { AnimatedNumber } from "./animated-number";
+import { AnimatedProgress } from "./animated-progress";
 
 const colorRoles = [
   ["Canvas", "Application background", "swatch--paper"],
@@ -35,7 +37,7 @@ export function DesignSystemPage() {
           <p className="kicker">Design principles</p>
           <h2 id="principles-title">Calm enough to scan. Explicit enough to act.</h2>
         </div>
-        <ol className="principle-grid">
+        <ol className="principle-grid motion-stagger">
           <li><span>01</span><strong>Make flow visible</strong><p>Movement and blockage appear before secondary metrics.</p></li>
           <li><span>02</span><strong>Explain the prompt</strong><p>Every intervention shows its rule, evidence, age, and owner.</p></li>
           <li><span>03</span><strong>Preserve human judgment</strong><p>The system routes attention; people still decide, delegate, and support.</p></li>
@@ -45,21 +47,21 @@ export function DesignSystemPage() {
 
       <section className="system-section" aria-labelledby="color-title">
         <header><div><p className="kicker">Foundation 01</p><h2 id="color-title">Semantic color</h2></div><p><Sun size={15} /> System light <Moon size={15} /> System dark</p></header>
-        <div className="swatch-grid">
+        <div className="swatch-grid motion-stagger">
           {colorRoles.map(([name, purpose, className]) => <article key={name}><span className={`system-swatch ${className}`} aria-hidden="true" /><div><strong>{name}</strong><p>{purpose}</p></div></article>)}
         </div>
       </section>
 
       <section className="system-section" aria-labelledby="type-title">
         <header><div><p className="kicker">Foundation 02</p><h2 id="type-title">Type with instrument precision</h2></div><p>12px floor · 15px body · rem scaling</p></header>
-        <div className="type-specimens">
+        <div className="type-specimens motion-stagger">
           {typeRoles.map(([name, copy, className]) => <article key={name}><span>{name}</span><p className={className}>{copy}</p></article>)}
         </div>
       </section>
 
       <section className="system-section" aria-labelledby="components-title">
         <header><div><p className="kicker">System inventory</p><h2 id="components-title">Components and states</h2></div><p>Native semantics · 44px targets</p></header>
-        <div className="component-specimens">
+        <div className="component-specimens motion-stagger">
           <article className="component-specimen">
             <h3>Actions</h3><p>One primary commitment; quiet controls preserve hierarchy.</p>
             <div className="specimen-row"><button type="button" className="button button--primary">Primary action <MoveRight size={15} /></button><button type="button" className="button button--quiet">Quiet action</button><button type="button" className="button button--quiet" disabled>Disabled</button></div>
@@ -79,6 +81,15 @@ export function DesignSystemPage() {
         </div>
       </section>
 
+      <section className="system-section" aria-labelledby="motion-title">
+        <header><div><p className="kicker">Foundation 03</p><h2 id="motion-title">Snappy, purposeful motion</h2></div><p>Visibility · continuity · feedback</p></header>
+        <div className="motion-specimens motion-stagger">
+          <article><span>Count-up</span><strong><AnimatedNumber value={42} minimumIntegerDigits={2} /></strong><p>Metrics resolve when they become visible.</p></article>
+          <article><span>Progress</span><strong><AnimatedNumber value={68} suffix="%" /></strong><AnimatedProgress value={68} label="Motion specimen progress" /><p>Meters and values move as one state change.</p></article>
+          <article><span>Stagger</span><ol className="motion-demo-list motion-stagger"><li>Signal captured</li><li>Evidence routed</li><li>Decision ready</li></ol></article>
+        </div>
+      </section>
+
       <section className="system-section" aria-labelledby="pattern-title">
         <header><div><p className="kicker">Product pattern</p><h2 id="pattern-title">Explainable attention routing</h2></div><p>Reason · evidence · owner · action</p></header>
         <div className="pattern-specimen">
@@ -94,7 +105,7 @@ export function DesignSystemPage() {
 
       <section className="system-proof" aria-labelledby="proof-title">
         <div><p className="kicker">Accessibility and resilience</p><h2 id="proof-title">The constraints are part of the visual language.</h2></div>
-        <ul><li><Check size={16} /> WCAG 2.2 AA contrast target</li><li><Check size={16} /> Keyboard focus and modal containment</li><li><Check size={16} /> System themes and forced colors</li><li><Check size={16} /> Reduced motion and 200% reflow</li></ul>
+        <ul className="motion-stagger"><li><Check size={16} /> WCAG 2.2 AA contrast target</li><li><Check size={16} /> Keyboard focus and modal containment</li><li><Check size={16} /> System themes and forced colors</li><li><Check size={16} /> Reduced motion and 200% reflow</li></ul>
       </section>
     </div>
   );

@@ -7,6 +7,8 @@ import { people, stageMeta } from "@/lib/driftline/seed";
 import { getStageStats } from "@/lib/driftline/rules";
 import type { StageId } from "@/lib/driftline/types";
 import { useDriftline } from "./driftline-provider";
+import { AnimatedNumber } from "./animated-number";
+import { AnimatedProgress } from "./animated-progress";
 
 type SortId = "activity" | "age" | "title";
 
@@ -39,11 +41,11 @@ export function PortfolioPage() {
         <Link href="/new?stage=signal" className="button button--primary"><Plus size={15} /> Create record</Link>
       </header>
 
-      <section className="portfolio-summary" aria-label="Portfolio stage summary">
+      <section className="portfolio-summary motion-stagger" aria-label="Portfolio stage summary">
         {(Object.keys(stageMeta) as StageId[]).map((stageId) => {
           const count = activeItems.filter((item) => item.stage === stageId).length;
           const stalled = stageStats.find((entry) => entry.stage === stageId)?.stalled ?? 0;
-          return <button type="button" key={stageId} aria-pressed={stage === stageId} onClick={() => setStage(stage === stageId ? "all" : stageId)} className={stage === stageId ? "is-active" : ""} style={{ "--stage-accent": stageMeta[stageId].accent } as React.CSSProperties}><span>{stageMeta[stageId].index}</span><strong>{String(count).padStart(2, "0")}</strong><small>{stageMeta[stageId].label}</small>{stalled > 0 && <em><CircleAlert size={11} /> {stalled} stalled</em>}</button>;
+          return <button type="button" key={stageId} aria-pressed={stage === stageId} onClick={() => setStage(stage === stageId ? "all" : stageId)} className={stage === stageId ? "is-active" : ""} style={{ "--stage-accent": stageMeta[stageId].accent } as React.CSSProperties}><span>{stageMeta[stageId].index}</span><strong><AnimatedNumber value={count} minimumIntegerDigits={2} /></strong><small>{stageMeta[stageId].label}</small>{stalled > 0 && <em><CircleAlert size={11} /> <AnimatedNumber value={stalled} /> stalled</em>}</button>;
         })}
       </section>
 
@@ -53,10 +55,10 @@ export function PortfolioPage() {
         <label className="sort-select"><span>Sort</span><select value={sort} onChange={(event) => setSort(event.target.value as SortId)}><option value="activity">Recent movement</option><option value="age">Oldest first</option><option value="title">Title A–Z</option></select></label>
       </div>
 
-      <div className="listing-result-bar" aria-live="polite"><span>{results.length} records</span>{query && <span>matching “{query}”</span>}<span className="listing-result-bar__right">Select a record to inspect its evidence and relationships</span></div>
+      <div className="listing-result-bar" aria-live="polite"><span><AnimatedNumber value={results.length} /> records</span>{query && <span>matching “{query}”</span>}<span className="listing-result-bar__right">Select a record to inspect its evidence and relationships</span></div>
 
       {results.length > 0 ? (
-        <div className="portfolio-grid">
+        <div className="portfolio-grid motion-stagger">
           {results.map((item) => {
             const owner = people.find((person) => person.id === item.ownerId);
             const primaryFlag = item.flags[0];
@@ -64,7 +66,7 @@ export function PortfolioPage() {
               <Link href={`/work/${item.id}`} className="portfolio-card" key={item.id} style={{ "--stage-accent": stageMeta[item.stage].accent } as React.CSSProperties}>
                 <div className="portfolio-card__header"><span>{stageMeta[item.stage].label}</span><code>{item.code}</code>{primaryFlag && <em><CircleAlert size={11} /> {primaryFlag.replaceAll("-", " ")}</em>}</div>
                 <div className="portfolio-card__body"><span className="kind-mark">{item.kind.slice(0, 1)}</span><div><small>{item.kind} · {item.region}</small><h2>{item.title}</h2><p>{item.summary}</p></div></div>
-                {typeof item.progress === "number" && <div className="portfolio-progress"><span role="progressbar" aria-label={`${item.title} progress`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={item.progress}><i style={{ width: `${item.progress}%` }} /></span><small>{item.progress}% progressed</small></div>}
+                {typeof item.progress === "number" && <div className="portfolio-progress"><AnimatedProgress value={item.progress} label={`${item.title} progress`} /><small><AnimatedNumber value={item.progress} suffix="%" /> progressed</small></div>}
                 <div className="portfolio-card__footer"><span>{owner ? <><span className="avatar avatar--small" style={{ background: owner.color }}>{owner.initials}</span>{owner.name}</> : <><span className="avatar avatar--small avatar--empty">?</span>Owner needed</>}</span><span>Moved {item.updatedLabel} <ArrowRight size={14} /></span></div>
               </Link>
             );

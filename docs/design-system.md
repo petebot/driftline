@@ -21,7 +21,7 @@ Driftline uses a restrained scientific-instrument language: calm surfaces, preci
 - **Shape:** small-radius controls, medium-radius working surfaces, and larger immersive panels.
 - **Typography:** Geist Sans for language and Geist Mono only for codes, metrics, timestamps, and operating labels.
 - **Voice:** direct, humane, and explanatory. Prompts describe why attention is needed without pretending the system made the decision.
-- **Motion:** short, restrained feedback that communicates selection, opening, or continuity.
+- **Motion:** snappy, instrument-like feedback that communicates hierarchy, continuity, state, and system response without slowing task completion.
 
 ## Foundations and tokens
 
@@ -74,8 +74,8 @@ The scale uses `rem`, preserves browser and user settings, and maintains a 12px 
 
 ### Motion
 
-- `--motion-fast`, `--motion-standard`, and `--ease-standard` define feedback timing.
-- Motion communicates selection, continuity, modal entry, or confirmation.
+- `--motion-fast`, `--motion-standard`, `--motion-reveal`, `--motion-count`, `--motion-stagger-step`, `--ease-standard`, and `--ease-snap` define feedback, reveal, count-up, and stagger timing.
+- Route entry communicates continuity; lists resolve in reading order; numeric metrics and meters animate once they become visible.
 - `prefers-reduced-motion` reduces animation and transitions to effectively immediate state changes.
 
 ### Layers
@@ -102,8 +102,10 @@ The scale uses `rem`, preserves browser and user settings, and maintains a 12px 
 | Form field | Input, select, textarea, help, warning | Persistent label; help/error association where relevant; system theme support |
 | Record card | Work and person variants | Entire card is a descriptive link; long content truncates or wraps without hiding its name |
 | Progress meter | Work progress and allocation | Exposes label, min, max, and current value |
+| Animated metric | Numeric readout with optional prefix, suffix, and zero padding | Counts from the previous displayed state when visible; exposes the final value to assistive technology and resolves immediately under reduced motion |
+| Animated progress meter | Work progress, allocation, and instrument intensity | Fills to the named current value when visible and keeps native range semantics; decorative traces are hidden from assistive technology |
 | Action dialog | Decide, delegate, nudge | Modal role, initial focus, Tab containment, Escape close, and trigger-focus restoration |
-| Navigation drawer | Expanded, collapsed, mobile | Current page exposed; mobile focus contained; Escape returns focus to the menu control |
+| Navigation drawer | Expanded, collapsed, mobile | Current page exposed; icon rail preserves optical centering; persona menu opens outside the rail without clipping; mobile focus contained; Escape returns focus to the menu control |
 | Toast | Confirmation with optional undo | Message uses a polite status region; undo remains independently focusable |
 
 ### Product patterns
@@ -116,6 +118,14 @@ The scale uses `rem`, preserves browser and user settings, and maintains a 12px 
 | Role lens | Reframes one shared portfolio by responsibility boundary |
 
 The flow map, lifecycle rail, role lens, and explainable routing composition remain product-specific patterns rather than generalized components.
+
+### Motion patterns
+
+- **Route entry:** the changing page surface settles upward and into focus while the persistent navigation remains stable.
+- **Ordered reveal:** cards, stages, evidence, activity, choices, and specimen items enter one after another in DOM reading order.
+- **Metric resolution:** counts use tabular numerals and animate on first visibility; progress values and fills resolve together.
+- **Interaction feedback:** buttons compress subtly on activation while existing hover and focus states retain their semantic styling.
+- **Reduced motion:** system preference removes reveal delay, count interpolation, scrolling, and meter travel while preserving final values and state.
 
 ## Complete-state expectations
 
@@ -148,6 +158,7 @@ The discoverable `/system` route demonstrates:
 - type roles and content constraints;
 - representative component variants and states;
 - the explainable attention-routing pattern;
+- the count-up, progress, and ordered-reveal motion patterns;
 - accessibility and resilience commitments;
 - one realistic path back into the product dashboard.
 
@@ -184,6 +195,15 @@ npm run build
 No accessibility exception is currently accepted. Unverified behavior must be reported rather than treated as passing.
 
 ## Major decisions and history
+
+### 2026-07-24 — Motion language expanded
+
+- Added semantic reveal, count, stagger, and snap-easing tokens.
+- Added shared visibility-aware numeric and progress components across dashboard, portfolio, people, detail, dialog, navigation, and specimen surfaces.
+- Added route-entry continuity, ordered list reveals, and tactile pressed feedback while preserving DOM order and native control semantics.
+- Refined the collapsed navigation into a smoothly transitioning icon rail with distinct creation actions and no control overlap.
+- Replaced the collapsed native persona selector with an unclipped, keyboard-accessible menu and fixed icon/badge flex geometry.
+- Kept reduced-motion behavior effectively immediate and exposed final metric and progress values to assistive technology.
 
 ### 2026-07-22 — Contract 1.0.0 adopted
 

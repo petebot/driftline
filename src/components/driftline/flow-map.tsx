@@ -2,6 +2,8 @@ import { ArrowRight, CircleAlert } from "lucide-react";
 import { stageMeta } from "@/lib/driftline/seed";
 import { getStageStats } from "@/lib/driftline/rules";
 import type { PortfolioItem, StageId } from "@/lib/driftline/types";
+import { AnimatedNumber } from "./animated-number";
+import { AnimatedProgress } from "./animated-progress";
 
 interface FlowMapProps {
   items: PortfolioItem[];
@@ -25,7 +27,7 @@ export function FlowMap({ items, selectedStage, onSelectStage }: FlowMapProps) {
         </div>
         <div className="system-readout" aria-label={`${totalStalled} stalled items detected`}>
           <span className="system-readout__pulse" aria-hidden="true" />
-          <span><strong>{totalStalled}</strong> stalled</span>
+          <span><strong><AnimatedNumber value={totalStalled} /></strong> stalled</span>
           <span className="system-readout__divider" />
           <span>Updated now</span>
         </div>
@@ -39,14 +41,14 @@ export function FlowMap({ items, selectedStage, onSelectStage }: FlowMapProps) {
           aria-pressed={selectedStage === "signal"}
           aria-label={`${unsorted} unsorted signals. Filter signals.`}
         >
-          <span className="unsorted-node__count">{String(unsorted).padStart(2, "0")}</span>
+          <span className="unsorted-node__count"><AnimatedNumber value={unsorted} minimumIntegerDigits={2} /></span>
           <span>
             <strong>Unsorted</strong>
             <small>outside intake</small>
           </span>
         </button>
 
-        <div className="flow-axis" aria-label="Work lifecycle stages">
+        <div className="flow-axis motion-stagger" aria-label="Work lifecycle stages">
           {stats.map((stat, index) => {
             const meta = stageMeta[stat.stage];
             const isSelected = selectedStage === stat.stage;
@@ -66,18 +68,18 @@ export function FlowMap({ items, selectedStage, onSelectStage }: FlowMapProps) {
                     <span className="flow-stage__index">{meta.index}</span>
                     {stat.stalled > 0 && (
                       <span className="flow-stage__flag">
-                        <CircleAlert size={12} strokeWidth={1.8} /> {stat.stalled} stalled
+                        <CircleAlert size={12} strokeWidth={1.8} /> <AnimatedNumber value={stat.stalled} /> stalled
                       </span>
                     )}
                   </span>
-                  <span className="flow-stage__metric">{String(stat.count).padStart(2, "0")}</span>
+                  <span className="flow-stage__metric"><AnimatedNumber value={stat.count} minimumIntegerDigits={2} /></span>
                   <span className="flow-stage__label">{meta.label}</span>
                   <span className="flow-stage__description">{meta.description}</span>
                   <span className="flow-stage__age">
                     <span>Median age</span>
-                    <strong>{stat.median}d</strong>
+                    <strong><AnimatedNumber value={stat.median} suffix="d" /></strong>
                   </span>
-                  <span className="flow-stage__trace" aria-hidden="true"><span /></span>
+                  <AnimatedProgress className="flow-stage__trace" value={intensity} label={`${meta.label} stall intensity`} decorative />
                 </button>
                 {index < stats.length - 1 && (
                   <span className="flow-link" aria-hidden="true">
